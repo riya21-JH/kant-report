@@ -15,6 +15,10 @@ st.markdown("""
         .block-container {
             padding-top: 30px; 
         }
+        
+    body {
+            zoom: 90%
+            font:14px}
     </style>
 """, unsafe_allow_html=True)
 
@@ -512,26 +516,26 @@ def show():
             school_name = get_school_name(current_school_id)
 
             # Layout: School ID text first, then navigation buttons on the same line
-            col1, col2, col3, col4, col5 = st.columns([5, 1, 1, 1, 1])
+            col1, col2, col3, col4, col5 = st.columns([4, 1, 1, 1, 1])
 
             with col1:
                 st.write(f"##### School ID: {current_school_id} | School: {school_name}")
 
             with col2:
+                st.write(f"***{selected_date}***")
+
+            with col3:
+                st.write(f"**{current_index + 1} / {total_schools}**")
+
+            with col4:
                 if st.button("PREV", key="prev") and st.session_state['current_index'] > 0:
                     st.session_state['current_index'] -= 1
                     st.rerun()
 
-            with col3:
+            with col5:
                 if st.button("NEXT", key="next") and st.session_state['current_index'] < len(school_ids) - 1:
                     st.session_state['current_index'] += 1
                     st.rerun()
-
-            with col4:
-                st.write(f"**{current_index + 1} / {total_schools}**")
-
-            with col5:
-                st.write(f"***{selected_date}***")
 
             # Fetch and display data for the current school ID
             data = fetch_data(current_school_id, selected_date)
@@ -561,7 +565,7 @@ def show():
 
 
             if not data.empty:
-                class_sections = ", ".join(f"{row['Class']}{row['Section']}" for _, row in data.iterrows())
+                # class_sections = ", ".join(f"{row['Class']}{row['Section']}" for _, row in data.iterrows())
 
                 # Fetch School Name
                 school_name = get_school_name(current_school_id)
@@ -666,17 +670,36 @@ def show():
 
 
 
-                            st.markdown(f"""
-                        <div style="width: 300px; display: flex; justify-content: space-between; margin-top: 5px; gap: 10px">
-                            <p style="margin: 0; font-size: 14px;">{timestamp.strftime("%H:%M:%S")}</p>
-                            <p style="margin: 0; font-size: 14px; margin-right: 15px; {time_diff_style} line-height: 1.2;">
-                                <b>{time_diff_text}</b>
-                            </p>
-                        </div>
-                        <p style="margin: 0; font-size: 14px; line-height: 1.2;"><b>Class:</b> {row['Class']}{row['Section']} &nbsp;&nbsp;&nbsp; {film_display}</p>
-                        <p style="margin: 0; font-size: 14px; line-height: 1.2;"><b>Uploaded By:</b> <span style="{style}">{row['uploaded_by']}</span></p>
-                    """, unsafe_allow_html=True)
+                    #         st.markdown(f"""
+                    #     <div style="width: 300px; display: flex; justify-content: space-between; margin-top: 5px; gap: 10px">
+                    #         <p style="margin: 0; font-size: 14px;">{timestamp.strftime("%H:%M:%S")}</p>
+                    #         <p style="margin: 0; font-size: 14px; margin-right: 15px; {time_diff_style} line-height: 1.2;">
+                    #             <b>{time_diff_text}</b>
+                    #         </p>
+                    #     </div>
+                    #     <p style="margin: 0; font-size: 14px; line-height: 1.2;"><b>Class:</b> {row['Class']}{row['Section']} &nbsp;&nbsp;&nbsp; {film_display}</p>
+                    #     <p style="margin: 0; font-size: 14px; line-height: 1.2;"><b>Uploaded By:</b> <span style="{style}">{row['uploaded_by']}</span></p>
+                    # """, unsafe_allow_html=True)
                             
+
+
+                            st.markdown(f"""
+                                <div style="width: 300px; display: flex; align-items: center; justify-content: space-between; margin-top: 5px; gap: 10px">
+                                    <p style="margin: 0; font-size: 14px;">{timestamp.strftime("%H:%M:%S")}</p>
+                                    <p style="margin: 0; font-size: 16px; flex-grow: 1; text-align: center; {time_diff_style} line-height: 1.2;">
+                                        <b>{time_diff_text}</b>
+                                    </p>
+                                </div>
+
+                                <p style="margin: 0; font-size: 14px; line-height: 1.2;">
+                                    <b>Class:</b> {row['Class']}{row['Section']} &nbsp;&nbsp;&nbsp; {film_display}
+                                </p>
+
+                                <p style="margin: 0; font-size: 14px; line-height: 1.2;">
+                                    <b>Uploaded By:</b> <span style="{style}">{row['uploaded_by']}</span>
+                                </p>
+                            """, unsafe_allow_html=True)
+
                             btn1, btn2 = st.columns([1, 1])
                             with btn1:           
                                 if st.button(f"ADD", key=f"suspect_{index}", help="Add to suspect list"):
