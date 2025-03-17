@@ -52,11 +52,18 @@ st.markdown(
 load_dotenv()
 
 # Database connection details
-DB_HOST = os.getenv("DB_HOST")
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASS = os.getenv("DB_PASS")
-DB_PORT = os.getenv("DB_PORT")
+# DB_HOST = os.getenv("DB_HOST")
+# DB_NAME = os.getenv("DB_NAME")
+# DB_USER = os.getenv("DB_USER")
+# DB_PASS = os.getenv("DB_PASS")
+# DB_PORT = os.getenv("DB_PORT")
+
+
+DB_HOST="2401:4900:1c63:189b:303f:f928:455d:b588"
+DB_NAME="postgres"
+DB_USER="postgres"
+DB_PASS="kant@123"
+DB_PORT="5432"
 
 
 
